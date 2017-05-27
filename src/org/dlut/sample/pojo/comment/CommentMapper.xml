@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="COMMENT" >
+  <resultMap id="CommentResultMap" type="org.dlut.sample.pojo.comment.Comment" >
+   	<id column="evaluation_id" property="evaluation_id"  />
+    <result column="user_id" property="user_id"  />
+    <result column="username" property="username"  />
+    <result column="score" property="score" />
+    <result column="text_evaluation" property="text_evaluation"  />
+    <result column="evaluation_Time" property="evaluation_Time" />
+    <result column="confer_id" property="confer_id" />
+    <result column="avatar" property="avatar" />
+  </resultMap>  
+  
+
+  <insert id="insertComment" parameterType="Comment" >
+    insert into evaluation (user_id,text_evaluation,evaluation_Time,confer_id)
+    values ( 
+    		#{user_id}, 
+    		#{text_evaluation},
+    		#{evaluation_Time},
+    		#{confer_id}
+    		)
+  </insert>
+  <select id="queryComment" parameterType="Comment" resultMap="CommentResultMap">
+ SELECT * FROM evaluation join user using(user_id)where evaluation.confer_id=#{confer_id} ORDER BY evaluation_Time DESC
+  </select>
+</mapper>

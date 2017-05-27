@@ -1,0 +1,104 @@
+@CHARSET "UTF-8";
+/*设置星号的样式*/
+.star{
+	margin-left: 4px;
+	color: #ff1d00;
+}
+
+/* 用于菜单栏按钮间距之间 */
+.myPadding{
+	padding: -1px 10px !important;
+}
+
+/* input:focus{
+	border-color:#fff
+} 
+ */
+.myInput:focus{
+	border-color:#aa3465;
+}
+
+.myBtn{
+	background:#f43059 !important;
+}
+.myBtn:hover{
+	background:#9a3976;
+}
+
+.myA{
+	color: #333;
+}
+
+.myFooter{
+	width: 100%;
+   padding: 32px 0 30px;
+   background: url("/ConferencePortal/images/footer.png") repeat scroll top transparent;
+}
+
+
+
+.search-lang-sign {
+    float: right;
+    height: 100%;
+    text-align: right;
+}
+
+.lang-sign {
+    padding-right: 25px;
+    padding-bottom: 5px;
+    color: #aaa;
+    cursor: pointer;
+}
+
+.search {
+    width: 350px;
+}
+
+.search input {
+    width: 300px;
+}
+.lang-sign span:hover {
+    color: #000
+}
+
+.sign-un {
+    display:inline-block;
+    margin-right:40px;
+}
+
+.sign-in {
+    display:none ;
+}
+
+ .sign-in {
+    margin-right: 0px;
+}
+.login-out{
+  margin-left:5px
+}
+.search-button {
+    position: relative;
+    left: -25px;
+}
+
+.myMenu {
+/* 	float: right; */
+	margin: 0 auto;
+}
+.myMenu li {
+	display: inline-block;
+}
+.myMenu li:first-child {
+	margin-left: 0;
+}
+.myMenu li a {
+	display: block;
+	font-size: 1em;
+	color: #777;
+	-webkit-transition: all 0.3s ease;
+	-moz-transition: all 0.3s ease;
+	-o-transition: all 0.3s ease;
+	transition: all 0.3s ease;
+	text-transform: uppercase;
+	font-weight: 600;
+}

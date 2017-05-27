@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="FOLLOWCONFERENCE" >
+  <resultMap id="BaseResultMap" type="org.dlut.sample.pojo.friendship.FollowConference" >
+   	<id column="user_id" property="user_id" jdbcType="INTEGER" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="avatar" property="avatar" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="points" property="points" jdbcType="VARCHAR" />
+    <result column="follow" property="follow" />
+    
+    <result column="confer_id" property="confer_id" />
+    <result column="confer_name" property="confer_name" />
+    <result column="confer_class_id" property="confer_class_id" />
+    <result column="confer_date" property="confer_date" />
+    <result column="confer_location" property="confer_location" />
+    <result column="confer_link" property="confer_link" />
+    <result column="paper_due" property="paper_due" />
+    <result column="confer_abstract" property="confer_abstract" />
+  </resultMap>
+  
+  <!-- 查询关注的人参加的会议最新一条 -->
+  <select id="queryFollowConference" parameterType="User" resultMap="BaseResultMap">
+  	SELECT user.user_id,username,avatar, email, points, follow,conference.confer_id,confer_name,confer_class_id,confer_date,confer_location,confer_link,paper_due,confer_abstract
+	from follow_relationship join attend_conference on be_follow_user_id=user_id join conference on attend_conference.confer_id=conference.confer_id join user on user.user_id=attend_conference.user_id
+	where follow_user_id=#{user_id}
+	order by confer_date desc
+	LIMIT 1
+  </select>
+  
+  <!-- 查询关注的人参加的会议所有 -->
+  <select id="queryAllFollowConference" parameterType="User" resultMap="BaseResultMap">
+  	SELECT user.user_id,username,avatar, email, points, follow,conference.confer_id,confer_name,confer_class_id,confer_date,confer_location,confer_link,paper_due,confer_abstract
+	from follow_relationship join attend_conference on be_follow_user_id=user_id join conference on attend_conference.confer_id=conference.confer_id join user on user.user_id=attend_conference.user_id
+	where follow_user_id=#{user_id}
+	order by confer_date desc
+  </select>
+ 
+</mapper>

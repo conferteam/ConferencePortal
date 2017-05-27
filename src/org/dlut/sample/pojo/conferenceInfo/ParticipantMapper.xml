@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="PARTICIPANT" >
+  <resultMap id="ParResultMap" type="org.dlut.sample.pojo.conferenceInfo.Participant" >
+   	 	<id column="participant_id" property="participant_id" jdbcType="INTEGER" />
+   	<result column="confer_id" property="conference_id" jdbcType="INTEGER" />
+   	<result column="confer_abbreviate" property="confer_abbreviate" jdbcType="VARCHAR" />
+    <result column="confer_name" property="conference_name" jdbcType="VARCHAR" />
+    <result column="confer_class_id" property="conference_class" jdbcType="VARCHAR" />
+    <result column="confer_date" property="conference_date" jdbcType="DATE" />
+    <result column="confer_location" property="conference_location" jdbcType="VARCHAR" />
+    <result column="confer_link" property="conference_link" jdbcType="VARCHAR" />
+    <result column="confer_abstract" property="conference_abstract" jdbcType="VARCHAR" />
+    <result column="confer_fare" property="conference_fare" jdbcType="DECIMAL" />
+  </resultMap>
+ 
+   <!-- 发布参会启事 -->
+  <insert id="insertParticipant" parameterType="Participant" >
+  	insert into participant (confer_abbreviate, confer_name, confer_class_id, confer_date, confer_location, confer_link, confer_fare)
+    values (#{confer_abbreviate,jdbcType=VARCHAR}, 
+    		#{conference_name,jdbcType=VARCHAR}, 
+    		#{conference_class,jdbcType=VARCHAR},
+    		#{conference_date,jdbcType=DATE},
+    		#{conference_location,jdbcType=VARCHAR},
+    		#{conference_link,jdbcType=VARCHAR},
+    		#{conference_fare,jdbcType=DECIMAL})
+  </insert>
+  <!-- <delete id="delete" parameterType="java.lang.Integer">
+	delete from conference where confer_id = #{userId, jdbcType=INTEGER}
+  </delete> -->
+  
+  <select id="queryAllCFP" resultMap="ParResultMap">
+  	select * from conference
+  </select>
+  
+</mapper>

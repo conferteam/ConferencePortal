@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="CONFER" >
+  <resultMap id="BaseResultMap" type="org.dlut.sample.pojo.friendship.Confer" >
+   	<id column="confer_id" property="confer_id" jdbcType="INTEGER" />
+    <result column="confer_name" property="confer_name"  />
+    <result column="confer_class_id" property="confer_class_id"  />
+    <result column="confer_date" property="confer_date"  />
+    <result column="confer_location" property="confer_location"  />
+    <result column="confer_link" property="confer_link" />
+    <result column="paper_due" property="paper_due" />
+    <result column="user_id" property="user_id" />
+    <result column="confer_abstract" property="confer_abstract" />
+  </resultMap>
+  
+  <!-- 查询会议信息 -->
+  <select id="queryConference" parameterType="GroupChat" resultMap="BaseResultMap">
+  	select * 
+  	from conference
+  	where confer_id=#{confer_id}
+  </select>
+
+</mapper>

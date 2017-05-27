@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="SUBSCRIBE" >
+
+  <resultMap id="SubscribeOnceResultMap" type="org.dlut.sample.pojo.comment.Subscribe" >
+   	<id column="subscribe_once_id" property="subscribe_once_id" />
+    <result column="confer_id" property="confer_id" />
+    <result column="user_id" property="user_id" />
+  </resultMap>
+  
+  <resultMap id="SubscribeLongResultMap" type="org.dlut.sample.pojo.comment.Subscribe" >
+   	<id column="subscribe_long_id" property="subscribe_long_id" />
+    <result column="confer_id" property="confer_id" />
+    <result column="user_id" property="user_id" />
+  </resultMap>
+
+
+  <insert id="insertSubscribeOnce" parameterType="Subscribe" >
+    insert into subscribe_once (confer_id,user_id,)
+    values (
+            #{confer_id}, 
+    		#{user_id}, 
+    		)
+  </insert>
+   <insert id="insertSubscribeLong" parameterType="Subscribe" >
+    insert into subscribe_once (confer_id,user_id,)
+    values (
+            #{confer_id}, 
+    		#{user_id}, 
+    		)
+  </insert>  
+   <delete id="deleteSubscribeLong" parameterType="Subscribe">
+	delete from subscribe_long where user_id = #{user_id} AND confer_id=#{confer_id}
+  </delete>
+  
+   <delete id="deleteSubscribeOnce" parameterType="Subscribe">
+	delete from subscribe_once where user_id = #{user_id} AND confer_id=#{confer_id}
+  </delete>
+    
+  
+  </mapper>

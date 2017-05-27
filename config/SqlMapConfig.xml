@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+          
+	<!-- 实体类的别名 -->
+	<typeAliases>	    
+		<typeAlias type="org.dlut.sample.pojo.conferenceInfo.Conference" alias="Conference"/>
+		<typeAlias type="org.dlut.sample.pojo.conferenceInfo.Participant" alias="Participant"/>
+		
+		<typeAlias type="org.dlut.sample.pojo.friendship.User" alias="User"/>
+		<typeAlias type="org.dlut.sample.pojo.friendship.Messages" alias="Messages"/>
+		<typeAlias type="org.dlut.sample.pojo.friendship.Confer" alias="Confer"/>
+		<typeAlias type="org.dlut.sample.pojo.friendship.GroupChat" alias="GroupChat"/>
+		<typeAlias type="org.dlut.sample.pojo.friendship.Friendship" alias="Friendship"/>
+		<typeAlias type="org.dlut.sample.pojo.friendship.FollowConference" alias="FollowConference"/>
+		
+		<typeAlias type="org.dlut.sample.pojo.user.UserInfo" alias="UserInfo"/>
+		<typeAlias type="org.dlut.sample.pojo.user.ProblemAnswer" alias="ProblemAnswer"/>
+		<typeAlias type="org.dlut.sample.pojo.user.UserInfoSimple" alias="UserInfoSimple"/>
+		<typeAlias type="org.dlut.sample.pojo.user.ConferInfoSimple" alias="ConferInfoSimple"/>
+		<typeAlias type="org.dlut.sample.pojo.user.UserInfoPages" alias="UserInfoPages" />
+		
+		<typeAlias type="org.dlut.sample.pojo.comment.Comment" alias="Comment"/>
+		<typeAlias type="org.dlut.sample.pojo.comment.CommentWithReply" alias="CommentWithReply"/>
+		<typeAlias type="org.dlut.sample.pojo.comment.Conference" alias="Conference"/>
+		<typeAlias type="org.dlut.sample.pojo.comment.Reply" alias="Reply"/>
+		<typeAlias type="org.dlut.sample.pojo.comment.Score" alias="Score"/>
+		<typeAlias type="org.dlut.sample.pojo.comment.Subscribe" alias="Subscribe"/>
+	</typeAliases>
+
+	
+	<!-- 环境管理，可以配置多个环境，默认是default="development"的环境 -->
+	<environments default="development">
+		<environment id="development">
+			<!-- 事务管理方式,JDBC事务 -->
+			<transactionManager type="JDBC" />
+			<!-- 数据源，type="POOLED"表示使用连接池 -->
+			<dataSource type="POOLED">
+				<property value="com.mysql.jdbc.Driver" name="driver" />
+				<property value="jdbc:mysql://localhost:3306/conference" name="url" />
+				<property value="root" name="username" />
+				<property value="182361" name="password" />
+			</dataSource>
+		</environment>
+	</environments>
+
+	<!--映射文件路径，可能会有多个mapper映射 -->
+	<mappers>	   
+		<mapper resource="org/dlut/sample/pojo/conferenceInfo/ConferenceMapper.xml"/>
+		<mapper resource="org/dlut/sample/pojo/conferenceInfo/ParticipantMapper.xml"/>
+		
+		<mapper resource="org/dlut/sample/pojo/friendship/UserMapper.xml"/>
+		<mapper resource="org/dlut/sample/pojo/friendship/MessagesMapper.xml"/>
+		<mapper resource="org/dlut/sample/pojo/friendship/ConferMapper.xml"/>
+		<mapper resource="org/dlut/sample/pojo/friendship/GroupChatMapper.xml"/>
+		<mapper resource="org/dlut/sample/pojo/friendship/FollowConferenceMapper.xml"/>
+		
+		<mapper resource="org/dlut/sample/pojo/user/UserInfo.xml"/>
+		<mapper resource="org/dlut/sample/pojo/user/ProblemAnswer.xml"/>
+		<mapper resource="org/dlut/sample/pojo/user/UserInfoSimple.xml"/>
+		<mapper resource="org/dlut/sample/pojo/user/ConferInfoSimple.xml"/>
+		<mapper resource="org/dlut/sample/pojo/user/UserInfoPages.xml"/>
+		<mapper resource="org/dlut/sample/pojo/comment/CommentMapper.xml"/>
+		<mapper resource="org/dlut/sample/pojo/comment/ReplyMapper.xml"/>
+		<mapper resource="org/dlut/sample/pojo/comment/ConferenceSortMapper.xml"/>
+		<mapper resource="org/dlut/sample/pojo/comment/ScoreMapper.xml"/>
+		<mapper resource="org/dlut/sample/pojo/comment/SubscribeMapper.xml"/>
+		
+		
+	</mappers>
+	
+</configuration>

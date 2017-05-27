@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="MESSAGES" >
+  <resultMap id="BaseResultMap" type="org.dlut.sample.pojo.friendship.Messages" >
+   	<id column="notice_id" property="notice_id" jdbcType="INTEGER" />
+    <result column="get_user_id" property="get_user_id" jdbcType="INTEGER" />
+    <result column="text" property="text" />
+    <result column="date" property="date" />
+    <result column="send_user_id" property="send_user_id"  />
+    
+    <result column="user_id" property="user_id" jdbcType="INTEGER" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="avatar" property="avatar" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="points" property="points" jdbcType="VARCHAR" />
+    <result column="follow" property="follow" />
+  </resultMap>
+  
+  <!-- 查询用户的所有私信，按时间降序排序，基本信息是好友的 -->
+  <select id="queryAll" parameterType="User" resultMap="BaseResultMap">
+  	select notice_id,get_user_id,text,date,send_user_id,user_id,username,avatar,email,points,follow
+  	from privatemsg_notice,user
+  	where get_user_id=#{user_id} and send_user_id=user_id
+					or send_user_id=#{user_id} and get_user_id=user_id
+  	order by date desc
+  </select>
+  
+  <!-- 查询发送给用户和某个好友之间的所有私信，按时间升序排序，基本信息是发送方的 -->
+  <select id="queryChat" parameterType="Messages" resultMap="BaseResultMap">
+  	select notice_id,get_user_id,text,date,send_user_id,user_id,username,avatar,email,points,follow
+  	from privatemsg_notice join user on privatemsg_notice.send_user_id=user.user_id
+  	where get_user_id=#{get_user_id} and send_user_id=#{send_user_id}
+			or get_user_id=#{send_user_id} and send_user_id=#{get_user_id}
+  	order by date asc
+  </select>
+  
+  <!-- 查询最新好友申请 -->
+  <select id="queryFriendNotice" parameterType="User" resultMap="BaseResultMap">
+  	SELECT notice_id,get_user_id,text,date,send_user_id,user_id,username,avatar,email,points,follow
+	from user join friend_make_notice on user_id=send_user_id
+	where get_user_id=#{user_id}
+	order by date DESC
+	LIMIT 1
+  </select>
+  
+  <!-- 查询所有好友申请 -->
+  <select id="queryAllFriendNotice" parameterType="User" resultMap="BaseResultMap">
+  	SELECT notice_id,get_user_id,text,date,send_user_id,user_id,username,avatar,email,points,follow
+	from user join friend_make_notice on user_id=send_user_id
+	where get_user_id=#{user_id}
+	order by date DESC
+  </select>
+  
+  <!-- 插入好友私信 -->
+  <insert id="insertChat" parameterType="Messages">
+  	insert into privatemsg_notice(get_user_id,send_user_id,text,date)
+  	values (
+  			#{get_user_id},
+  			#{send_user_id},
+  			#{text},
+  			#{date}
+  	)
+  </insert>
+  
+  <!-- 添加好友 -->
+  <insert id="addFriend" parameterType="Messages">
+  	INSERT IGNORE into friend_relationship(front_user_id,behind_user_id)
+	VALUES (
+		#{get_user_id},
+		#{send_user_id}
+	)
+  </insert>
+  
+  <!-- 删除好友申请 -->
+  <delete id="deleteFriendNotice" parameterType="Messages">
+  	DELETE from friend_make_notice
+	where notice_id=#{notice_id}
+  </delete>
+  
+  <!-- 插入好友申请 -->
+  <insert id="insertFriendNotice" parameterType="Messages">
+  	insert into friend_make_notice(get_user_id,send_user_id,text,date)
+  	values (
+  			#{get_user_id},
+  			#{send_user_id},
+  			#{text},
+  			#{date}
+  	)
+  </insert>
+</mapper>

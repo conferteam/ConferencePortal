@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="CONFERENCE" >
+  <resultMap id="CFPResultMap" type="org.dlut.sample.pojo.conferenceInfo.Conference" >
+   	<id column="confer_id" property="conference_id" jdbcType="INTEGER" />
+   	<result column="confer_abbreviate" property="confer_abbreviate" jdbcType="VARCHAR" />
+    <result column="confer_name" property="conference_name" jdbcType="VARCHAR" />
+    <result column="confer_class_id" property="conference_class" jdbcType="VARCHAR" />
+    <result column="confer_date" property="conference_date" jdbcType="DATE" />
+    <result column="paper_due" property="paper_due" jdbcType="DATE" />
+    <result column="confer_location" property="conference_location" jdbcType="VARCHAR" />
+    <result column="confer_link" property="conference_link" jdbcType="VARCHAR" />
+    <result column="confer_abstract" property="conference_abstract" jdbcType="VARCHAR" />
+    <result column="confer_fare" property="conference_fare" jdbcType="DECIMAL" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="categories_id" property="categories_id" jdbcType="INTEGER" />
+  </resultMap>
+
+
+  <insert id="insert" parameterType="Conference" >
+    insert into conference (confer_abbreviate, confer_name, confer_class_id, confer_date, confer_location, confer_link, paper_due, confer_abstract,user_id)
+    values (#{confer_abbreviate,jdbcType=VARCHAR}, 
+    		#{conference_name,jdbcType=VARCHAR}, 
+    		#{conference_class,jdbcType=VARCHAR},
+    		#{conference_date,jdbcType=DATE},
+    		#{conference_location,jdbcType=VARCHAR},
+    		#{conference_link,jdbcType=VARCHAR},
+    		#{paper_due,jdbcType=DATE},
+    		#{conference_abstract,jdbcType=VARCHAR},
+    		#{userId,jdbcType=INTEGER})
+  </insert>
+  <!-- 查询所有已发布的会议 -->
+  <select id="queryCFP" resultMap="CFPResultMap">
+  	select *
+  		from conference
+  			order by confer_date DESC,confer_id DESC;
+  			<!-- 	LIMIT 0, 2; -->
+  </select>
+  
+  <update id="updateCFP" parameterType="Conference">
+  	UPDATE conference SET confer_name=#{conference_name}, confer_abbreviate=#{confer_abbreviate},
+  						  paper_due=#{paper_due},confer_abstract=#{conference_abstract}, confer_link=#{conference_link}, 
+						  confer_date=#{conference_date},confer_location=#{conference_location} 
+				WHERE confer_id = #{conference_id};
+  </update>
+  <!-- <delete id="delete" parameterType="java.lang.Integer">
+	delete from conference where confer_id = #{userId, jdbcType=INTEGER}
+  </delete> -->
+  
+  <!-- 取出最新发布的会议 -->
+  <select id="queryByDate" resultMap="CFPResultMap">
+  	select confer_id, confer_name,confer_abbreviate
+  		from conference 
+  			order by confer_date DESC,confer_id;
+  </select>
+  
+  <!-- 按会议进行查询 -->
+  <select id="queryByCategories" parameterType="Conference" resultMap="CFPResultMap">
+  	SELECT conference.confer_id,conference.confer_abbreviate,conference.confer_name,conference.confer_class_id,conference.confer_date,
+			conference.confer_location,conference.confer_link,conference.paper_due,conference.user_id,
+			conference.confer_abstract,categories.confer_class_id,categories.categories_id
+			FROM conference
+				INNER JOIN categories ON conference.confer_class_id = categories.confer_class_id
+					WHERE
+						categories.categories_id = #{categories_id};
+  </select>
+  
+  <!-- 按会议评分查询 -->
+  <select id="queryByScore" resultMap="CFPResultMap">
+  	select confer_id, confer_name,confer_abbreviate
+  		from 
+  </select>
+  
+  <!-- 查询会议类别 -->
+  <select id="queryCategories" resultMap="CFPResultMap">
+  	select * from categories 
+  			order by categories_id;
+  </select>
+  
+  <!-- 查询会议详细信息 -->
+  <select id="queryDetail" parameterType="Conference" resultMap="CFPResultMap">
+			SELECT *
+				FROM conference
+					WHERE
+						conference.confer_id = #{conference_id};
+  </select>
+  
+  
+   <select id="queryById" parameterType="Conference" resultMap="CFPResultMap">
+			<!-- SELECT confer_id,confer_name,confer_abbreviate,confer_class_id,confer_location,confer_link,
+					confer_abstract, DATE_FORMAT (confer_date,'%Y-%m-%d'), DATE_FORMAT (paper_due,'%Y-%m-%d')
+				FROM conference
+					WHERE
+						conference.confer_id = #{conference_id}; -->
+			SELECT confer_id,confer_name,confer_abbreviate,confer_class_id,confer_location,confer_link,
+					confer_abstract,confer_date,paper_due
+				FROM conference
+					WHERE
+						conference.confer_id = #{conference_id};
+  </select>
+  
+ <!--  <select id="queryAllCFP" resultMap="CFPResultMap">
+  	select * from conference
+  </select> -->
+  
+</mapper>

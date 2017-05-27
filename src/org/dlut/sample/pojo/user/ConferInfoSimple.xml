@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="CONFERINFOSIMPLE">
+
+	<resultMap id="ConferInfoSimpleResultMap" type="org.dlut.sample.pojo.user.ConferInfoSimple">
+		<id column="confer_id" property="confer_id" jdbcType="INTEGER" />
+		<result column="confer_name" property="confer_name" jdbcType="VARCHAR" />
+		<result column="confer_class_id" property="confer_class_id"
+			jdbcType="VARCHAR" />
+		<result column="confer_date" property="confer_date" jdbcType="DATE" />
+		<result column="confer_location" property="confer_location"
+			jdbcType="VARCHAR" />
+		<result column="user_id" property="user_id" jdbcType="INTEGER" />
+		<result column="confer_abstract" property="confer_abstract"
+			jdbcType="VARCHAR" />
+		<result column="confer_abbreviate" property="confer_abbreviate"
+			jdbcType="VARCHAR" />
+	</resultMap>
+
+	<select id="conferidexchangename" parameterType="ConferInfoSimple"
+		resultMap="ConferInfoSimpleResultMap">
+		select * from conference where
+		confer_id=#{confer_id,jdbcType=INTEGER}
+	</select>
+
+<!-- wqq -->
+<select id="getmyconfertop2" parameterType="UserInfo"
+		resultMap="ConferInfoSimpleResultMap">
+		select *
+		from conference where confer_id in (
+		select confer_id
+		from attend_conference where
+		user_id=#{id,jdbcType=VARCHAR}
+		) order by
+		confer_date limit 2
+
+	</select>
+	<select id="getmyconfer" parameterType="UserInfoPages"
+		resultMap="ConferInfoSimpleResultMap">
+		select * from conference where confer_id in (select
+		confer_id from attend_conference where
+		user_id=#{id,jdbcType=INTEGER}) order by confer_date desc limit
+		#{pagesend,jdbcType=INTEGER} offset #{pages ,jdbcType=INTEGER}
+	</select>
+	<select id="getmysubscribetop2" parameterType="UserInfo"
+		resultMap="ConferInfoSimpleResultMap">
+		select * from subscribe where
+		user_id=#{id,jdbcType=INTEGER}
+		order by subscribe_id limit 2
+	</select>
+</mapper>

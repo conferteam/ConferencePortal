@@ -1,0 +1,12 @@
+eclipse.preferences.version=1
+encoding//WebContent/pages/test.jsp=UTF-8
+encoding//src/org/dlut/sample/action/comment/CommentWithReplyAction.java=UTF-8
+encoding//src/org/dlut/sample/action/comment/ReplyAction.java=UTF-8
+encoding//src/org/dlut/sample/action/comment/SocreAction.java=UTF-8
+encoding//src/org/dlut/sample/action/friendship/ChatAction.java=UTF-8
+encoding//src/org/dlut/sample/action/friendship/GroupChatAction.java=UTF-8
+encoding//src/org/dlut/sample/action/friendship/MessagesAction.java=UTF-8
+encoding//src/org/dlut/sample/controller/SimpleFileupload.java=UTF-8
+encoding//src/org/dlut/sample/dao/conferenceInfo/ConferenceDao.java=UTF-8
+encoding//src/org/dlut/sample/pojo/conferenceInfo/Conference.java=UTF-8
+encoding//src/org/dlut/sample/pojo/conferenceInfo/Participant.java=UTF-8

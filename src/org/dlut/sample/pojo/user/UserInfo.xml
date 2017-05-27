@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="USERINFO">
+	<resultMap id="UserInfoResultMap" type="org.dlut.sample.pojo.user.UserInfo">
+		<id column="user_id" property="id" jdbcType="INTEGER" />
+		<result column="email" property="email" jdbcType="VARCHAR" />
+		<result column="username" property="username" jdbcType="VARCHAR" />
+		<result column="avatar" property="avatar" jdbcType="VARCHAR" />
+		<result column="password" property="password" jdbcType="VARCHAR" />
+		<result column="points" property="points" jdbcType="INTEGER" />
+		<result column="follow" property="follow" jdbcType="INTEGER" />
+	</resultMap>
+
+	<update id="insertAvatar" parameterType="UserInfo">
+		update user
+		set
+		avatar=#{avatar,jdbcType=VARCHAR} where
+		email=#{email,jdbcType=VARCHAR}
+	</update>
+
+	<update id="passwordreset" parameterType="UserInfo">
+		update user
+		set
+		password=#{password,jdbcType=VARCHAR} where
+		email=#{email,jdbcType=VARCHAR}
+	</update>
+
+	<update id="insertnewinfonopassword" parameterType="UserInfo">
+		update user
+		set username=#{username,jdbcType=VARCHAR} ,
+		follow=#{follow,jdbcType=INTEGER} where
+		email=#{email,jdbcType=VARCHAR}
+	</update>
+
+	<update id="insertnewinfo" parameterType="UserInfo">
+		update user
+		set
+		username=#{username,jdbcType=VARCHAR} ,
+		follow=#{follow,jdbcType=INTEGER} ,
+		password=#{password,jdbcType=VARCHAR} where
+		email=#{email,jdbcType=VARCHAR}
+	</update>
+
+<!-- 	<select id="getmysubscribetop2" parameterType="UserInfo" -->
+<!-- 		resultMap="ConferInfoSimpleResultMap"> -->
+<!-- 		select * from subscribe where -->
+<!-- 		user_id=#{id,jdbcType=INTEGER} -->
+<!-- 		order by subscribe_id limit 2 -->
+<!-- 	</select> -->
+
+<!-- 	<select id="getmyconfertop2" parameterType="UserInfo" -->
+<!-- 		resultMap="ConferInfoSimpleResultMap"> -->
+<!-- 		select * -->
+<!-- 		from conference where confer_id in ( -->
+<!-- 		select confer_id -->
+<!-- 		from attend_conference where -->
+<!-- 		user_id=#{id,jdbcType=VARCHAR} -->
+<!-- 		) order by -->
+<!-- 		confer_date limit 2 -->
+
+<!-- 	</select> -->
+
+	<select id="inquireuserinfo" parameterType="UserInfo" resultMap="UserInfoResultMap">
+		select *
+		from user where email = #{email,jdbcType=VARCHAR}
+	</select>
+
+</mapper>

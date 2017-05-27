@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="USER" >
+  <resultMap id="BaseResultMap" type="org.dlut.sample.pojo.friendship.User" >
+   	<id column="user_id" property="user_id" jdbcType="INTEGER" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="avatar" property="avatar" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="points" property="points" jdbcType="VARCHAR" />
+    <result column="follow" property="follow" />
+  </resultMap>
+  
+  <!-- 查询参加会议人员列表 ,除自己外 -->
+  <select id="queryUserList" parameterType="GroupChat" resultMap="BaseResultMap">
+  	SELECT user.user_id,user.avatar,user.email,user.follow,user.points,user.username 
+	FROM user,conference,attend_conference
+	where attend_conference.confer_id=#{confer_id}
+			and conference.confer_id=attend_conference.confer_id
+			and user.user_id=attend_conference.user_id
+			and user.user_id!=#{user_id}
+  </select>
+  
+  <!-- 查询用户个人信息 -->
+  <select id="queryUser" parameterType="User" resultMap="BaseResultMap">
+  	select * 
+  	from user
+  	where user_id=#{user_id}
+  </select>
+  
+  <!-- 查询好友列表 -->
+  <select id="queryFriends" parameterType="User" resultMap="BaseResultMap">
+  	select user_id,username,avatar,email,points from friend_relationship join user on user_id=behind_user_id where front_user_id=#{user_id}
+	union 
+	select user_id,username,avatar,email,points from friend_relationship join user on user_id=front_user_id where behind_user_id=#{user_id}
+  </select>
+  
+  <!-- 删除好友 -->
+  <delete id="deleteFriend" parameterType="Friendship" >
+    DELETE FROM friend_relationship
+	WHERE front_user_id=#{user1_id}
+		AND behind_user_id=#{user2_id}
+  </delete>
+  
+  <!-- 删除聊天记录 -->
+  <delete id="deleteChat" parameterType="Friendship" >
+    DELETE FROM privatemsg_notice
+	WHERE get_user_id=#{user1_id} AND send_user_id=#{user2_id}
+	or send_user_id=#{user1_id} AND get_user_id=#{user2_id}
+  </delete>
+  
+  <!-- 查询关注的人 -->
+  <select id="queryFollow" parameterType="User" resultMap="BaseResultMap">
+  	SELECT user_id,username,avatar,email,points
+	from follow_relationship,user
+	where follow_user_id=#{user_id} and user_id=be_follow_user_id
+  </select>
+  
+  <!-- 添加关注 -->
+  <insert id="insertFollow" parameterType="Friendship" >
+    insert ignore into follow_relationship (be_follow_user_id, follow_user_id)
+    values (#{user1_id}, 
+    		#{user2_id})
+  </insert>
+  
+  <!-- 删除关注 -->
+  <delete id="deleteFollow" parameterType="Friendship" >
+    DELETE FROM follow_relationship
+	WHERE be_follow_user_id=#{user1_id}
+		AND follow_user_id=#{user2_id}
+  </delete>
+  
+  <!-- 查询关注我的人 -->
+  <select id="queryBeFollowed" parameterType="User" resultMap="BaseResultMap">
+  	SELECT user_id,username,avatar,email,points
+	from follow_relationship,user
+	where be_follow_user_id=#{user_id} and user_id=follow_user_id
+  </select>
+  
+</mapper>

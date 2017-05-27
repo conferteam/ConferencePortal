@@ -1,0 +1,37 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="SCORE" >
+
+  <resultMap id="ScoreResultMap" type="org.dlut.sample.pojo.comment.Score" >
+   	<id column="user_id" property="user_id" />
+    <result column="confer_id" property="confer_id" />
+    <result column="evaluation_score" property="evaluation_score" />
+    <result column="score_times" property="score_times" />
+    <result column="confer_date" property="confer_date" />
+  </resultMap>
+
+  <update id="updateScore" parameterType="Score" >
+      UPDATE attend_conference
+             SET evaluation_score=#{evaluation_score},score_times=#{score_times}
+       WHERE user_id=#{user_id} AND confer_id=#{confer_id}     
+  </update>
+  
+  <update id="updateAverageScore" parameterType="Conference" >
+      UPDATE sort
+             SET sort_score=#{confer_score}
+       WHERE confer_id=#{conference_id} 
+  </update>
+  
+   <select id="query" parameterType="Score" resultMap="ScoreResultMap">
+   select  user_id,confer_id,evaluation_score,score_times,confer_date
+    from
+            (
+                  select * from attend_conference  where user_id=#{user_id} AND confer_id=#{confer_id}
+            )ts join conference using(confer_id)
+     
+  </select>
+   <select id="queryValidScore" parameterType="Score" resultMap="ScoreResultMap">
+   select  user_id,confer_id,evaluation_score
+      from   attend_conference  
+      where score_times=1 AND confer_id=#{confer_id}    
+  </select>
+  </mapper>

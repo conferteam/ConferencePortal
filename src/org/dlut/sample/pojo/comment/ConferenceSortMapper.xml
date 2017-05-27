@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="CONFERENCESORT" >
+
+  <resultMap id="ConferenceSortResultMap" type="org.dlut.sample.pojo.comment.Conference" >
+  
+   	<id column="confer_id" property="conference_id" />
+    <result column="confer_name" property="conference_name" />
+    <result column="confer_class_id" property="conference_class" />
+    <result column="confer_date" property="conference_date"  />
+    <result column="confer_location" property="conference_location"  />
+    <result column="confer_abstract" property="conference_abstract"  />
+    <result column="confer_score" property="confer_score"  />
+    <result column="confer_abbreviate" property="confer_abbreviate" />
+  </resultMap>
+
+   <select id="sortConference" parameterType="Conference" resultMap="ConferenceSortResultMap">
+   SELECT  confer_id,confer_name,confer_class_id,confer_date,confer_location,confer_abstract,sort_score AS confer_score,confer_abbreviate
+   FROM  (  
+             SELECT *
+             FROM  conference
+                   JOIN 
+                   categories
+                   USING (confer_class_id)
+             WHERE
+                    categories_id = #{categories_id}
+          ) ts
+               JOIN
+            sort
+               USING (confer_id)
+   ORDER BY confer_score DESC
+  </select>
+  </mapper>
